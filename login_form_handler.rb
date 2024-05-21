@@ -43,13 +43,20 @@ class LoginFormHandler
 
   def render_success_message
     headers = {'Content-Type' => 'text/html'}
-    response = '<h1>Login successful!</h1>'
+    response = modify_html('success-message')
     [200, headers, [response]]
   end
 
   def render_failure_message
     headers = {'Content-Type' => 'text/html'}
-    response = '<h1>Login failed. Please try again.</h1>'
+    response = modify_html('failure-message')
     [200, headers, [response]]
+  end
+
+  def modify_html(section_id)
+    html = File.read('views/login/login_home.html')
+    html.gsub!(%r{id="login-form" class="center"}, 'id="login-form" class="center hidden"')
+    html.gsub!(%r{id="#{section_id}" class="center hidden"}, 'id="#{section_id}" class="center"')
+    html
   end
 end
