@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login Application</title>
+  <style>
+    .hidden { display: none; }
+    .center { text-align: center; }
+    .bold { font-weight: bold; }
+    .button {
+      padding: 8px 12px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div id="login-form" class="center">
+    <h1 style="color: #333;">Login form</h1>
+    <form method="post" action="/submit" style="margin-top: 20px; display: inline-block;">
+      <label for="username" class="bold">Username:</label><br>
+      <input type="text" id="username" name="username" style="padding: 5px; width: 200px;"><br>
+      <label for="password" class="bold">Password:</label><br>
+      <input type="password" id="password" name="password" style="padding: 5px; width: 200px;"><br><br>
+      <input type="submit" value="Submit" class="button">
+    </form>
+  </div>
+
+  <div id="success-message" class="center hidden">
+    <h1 style="color: #4CAF50;">Login Successful</h1>
+    <p>Welcome!</p>
+  </div>
+
+  <div id="failure-message" class="center hidden">
+    <h1 style="color: #FF0000;">Login Failed</h1>
+    <p>Invalid username or password. Please try again.</p>
+  </div>
+</body>
+</html>
