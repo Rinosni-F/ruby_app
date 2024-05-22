@@ -1,9 +1,16 @@
 require 'rack'
-require_relative 'application'
-require_relative 'login_form_handler'
-require_relative 'database'
+require_relative 'app/controllers/application_controller'
+# Database configuration
+DB_CONFIG = {
+    host: 'localhost',
+    username: 'root',
+    password: 'rino',
+    database: 'indexing',
+    port: 3306 # Default MySQL 
+}
 
 
 use Rack::Reloader, 0
 
-run Application.new(DB_CONFIG)
+run ApplicationController.new(DB_CONFIG)
+

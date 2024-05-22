@@ -1,6 +1,6 @@
 require 'rack'
 
-class LoginFormHandler
+class LoginController
   def initialize(client)
     @client = client
   end
@@ -10,6 +10,8 @@ class LoginFormHandler
     
     if request.post? && request.path == '/submit'
       handle_form_submission(request)
+    elsif request.path == '/home'
+      render_home_page
     else
       render_login_form
     end
@@ -22,7 +24,7 @@ class LoginFormHandler
     password = request.params['password']
 
     if valid_user?(username, password)
-      render_success_message
+      redirect_to_home
     else
       render_failure_message
     end
@@ -37,7 +39,7 @@ class LoginFormHandler
 
   def render_login_form
     headers = {'Content-Type' => 'text/html'}
-    response = File.read('views/login/login_home.html')
+    response = File.read('app/views/login/login_home.html')
     [200, headers, [response]]
   end
 
@@ -54,9 +56,19 @@ class LoginFormHandler
   end
 
   def modify_html(section_id)
-    html = File.read('views/login/login_home.html')
+    html = File.read('app/views/login/login_home.html')
     html.gsub!(%r{id="login-form" class="center"}, 'id="login-form" class="center hidden"')
     html.gsub!(%r{id="#{section_id}" class="center hidden"}, 'id="#{section_id}" class="center"')
     html
+  end
+
+  def redirect_to_home
+    [302, { 'Location' => '/home' }, []]
+  end
+
+  def render_home_page
+    headers = {'Content-Type' => 'text/html'}
+    response = File.read('app/views/home/index.erb')
+    [200, headers, [response]]
   end
 end
