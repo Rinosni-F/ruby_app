@@ -5,6 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Add New User</title>
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    .center {
+      text-align: center;
+      margin-top: 20px;
+    }
+    .hidden {
+      display: none;
+    }
+  </style>
 </head>
 <body>
   <div class="container">
@@ -22,8 +31,14 @@
         <label for="password">Password:</label>
         <input type="password" class="form-control" id="password" name="password" required>
       </div>
-      <button type="submit" class="btn btn-primary">Create</button>
+      <button type="submit" class="btn btn-primary">Submit</button>
     </form>
+    <div id="success-message" class="center hidden">
+      <h1 class="text-success">User created successfully!</h1>
+    </div>
+    <div id="failure-message" class="center hidden">
+      <h1 class="text-danger">User creation failed. Please try again.</h1>
+    </div>
   </div>
 </body>
 </html>
