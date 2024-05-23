@@ -9,9 +9,11 @@ class Routes
         LoginController.new(@client).call(env)
       when '/submit'
         LoginController.new(@client).call(env)
-      when '/register'
-        UserFormHandler.new(@client).call(env)
-      # Add more routes here
+      when '/app/views/home/adduser.html'
+        Adduser.new.index(env)
+      when '/add_user'
+        Adduser.new(@client).call(env)
+        # Add more routes here
       else
         not_found
       end

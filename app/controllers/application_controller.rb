@@ -1,7 +1,7 @@
 require_relative '../../config/database'
 require_relative '../../config/routes'
 require_relative 'login_controller'
-require_relative 'user_form_handler'
+require_relative 'adduser_controller'
 
 class ApplicationController
   def initialize(db_config)
