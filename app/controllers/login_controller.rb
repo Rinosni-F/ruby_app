@@ -30,10 +30,12 @@ class LoginController
   end
 
   def valid_user?(username, password)
-    query = "SELECT * FROM user WHERE username = ? AND password = ? LIMIT 1"
+    query = "SELECT password FROM users WHERE username = ? LIMIT 1"
     statement = @client.prepare(query)
-    result = statement.execute(username, password)
-    result.count > 0
+    result = statement.execute(username).first
+    return false unless result
+    hashed_password = result['password']
+    BCrypt::Password.new(hashed_password) == password
   end
 
   def render_login_form

@@ -13,7 +13,7 @@ development:
   # <<: *default
   # database: db/development.sqlite3
   adapter: mysql2
-  database: indexing
+  database: dev_tables
   username: root
   password: rino
   host: localhost

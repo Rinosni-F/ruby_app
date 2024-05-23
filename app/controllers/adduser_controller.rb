@@ -30,7 +30,7 @@ class AddUserController
   end
 
   def insert_user(username, email, password)
-    query = "INSERT INTO user (username, email, password) VALUES (?, ?, ?)"
+    query = "INSERT INTO users (username, email, password) VALUES (?, ?, ?)"
     statement = @client.prepare(query)
     statement.execute(username, email, password)
     true # Return true to indicate success
