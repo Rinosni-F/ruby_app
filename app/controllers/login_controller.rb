@@ -1,4 +1,5 @@
 require 'rack'
+require 'bcrypt'
 
 class LoginController
   def initialize(client)
@@ -10,8 +11,6 @@ class LoginController
     
     if request.post? && request.path == '/submit'
       handle_form_submission(request)
-    elsif request.path == '/home'
-      render_home_page
     else
       render_login_form
     end
@@ -24,7 +23,7 @@ class LoginController
     password = request.params['password']
 
     if valid_user?(username, password)
-      redirect_to_home
+      render_success_message
     else
       render_failure_message
     end
@@ -45,9 +44,10 @@ class LoginController
 
   def render_success_message
     headers = {'Content-Type' => 'text/html'}
-    response = modify_html('success-message')
+    response = File.read('app/views/home/index.erb')
     [200, headers, [response]]
   end
+  
 
   def render_failure_message
     headers = {'Content-Type' => 'text/html'}
@@ -60,15 +60,5 @@ class LoginController
     html.gsub!(%r{id="login-form" class="center"}, 'id="login-form" class="center hidden"')
     html.gsub!(%r{id="#{section_id}" class="center hidden"}, 'id="#{section_id}" class="center"')
     html
-  end
-
-  def redirect_to_home
-    [302, { 'Location' => '/home' }, []]
-  end
-
-  def render_home_page
-    headers = {'Content-Type' => 'text/html'}
-    response = File.read('app/views/home/index.erb')
-    [200, headers, [response]]
   end
 end

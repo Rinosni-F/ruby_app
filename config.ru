@@ -1,16 +1,9 @@
 require 'rack'
 require_relative 'app/controllers/application_controller'
-# Database configuration
-DB_CONFIG = {
-    host: 'localhost',
-    username: 'root',
-    password: 'rino',
-    database: 'indexing',
-    port: 3306 # Default MySQL 
-}
 
+# Set the environment (development, test, production)
+ENV['RACK_ENV'] ||= 'development'
 
 use Rack::Reloader, 0
 
-run ApplicationController.new(DB_CONFIG)
-
+run ApplicationController.new(ENV['RACK_ENV'])
