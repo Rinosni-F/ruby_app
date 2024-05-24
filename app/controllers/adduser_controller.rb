@@ -21,27 +21,30 @@ class AddUserController
     username = request.params['username']
     email = request.params['email']
     password = BCrypt::Password.create(request.params['password'])
+    role = request.params['role']
 
-    if insert_user(username, email, password)
+
+    if insert_user(username, email, password, role)
       render_success_message
     else
       render_failure_message
     end
   end
 
-  def insert_user(username, email, password)
-    query = "INSERT INTO users (username, email, password) VALUES (?, ?, ?)"
+  def insert_user(username, email, password, role)
+    query = "INSERT INTO users (username, email, password, role) VALUES (?, ?, ?, ?)"
     statement = @client.prepare(query)
-    statement.execute(username, email, password)
+    statement.execute(username, email, password, role)
     true # Return true to indicate success
   rescue StandardError => e
     puts "Error inserting user: #{e.message}" # Log the error message
     false # Return false to indicate failure
   end
+  
 
   def render_add_user_form
     headers = {'Content-Type' => 'text/html'}
-    response = File.read('app/views/home/adduser.html')
+    response = File.read('app/views/home/adduser.html.erb')
     [200, headers, [response]]
   end
 
@@ -58,7 +61,7 @@ class AddUserController
   end
 
   def modify_html(section_id)
-    html = File.read('app/views/home/adduser.html')
+    html = File.read('app/views/home/adduser.html.erb')
     html.gsub!(%r{id="login-form" class="center"}, 'id="login-form" class="center hidden"')
     html.gsub!(%r{id="success-message" class="center hidden"}, 'id="success-message" class="center"') if section_id == 'success-message'
     html.gsub!(%r{id="failure-message" class="center hidden"}, 'id="failure-message" class="center"') if section_id == 'failure-message'

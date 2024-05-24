@@ -17,7 +17,7 @@
         <li class="nav-item">
           <a class="nav-link" href="/">Home</a>
         </li>
-          <li class="nav-item">
+        <li class="nav-item">
           <a class="nav-link" href="/adduser">User</a>
         </li>
         <li class="nav-item">
@@ -26,10 +26,28 @@
       </ul>
     </div>
   </nav>
-
   <div class="container center">
-    <h1>Welcome to the Home Page!</h1>
-    <p>You have successfully logged in.</p>
+    <h1>User list</h1>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Username</th>
+          <th>Email</th>
+          <th>Role</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @users.each do |user| %>
+          <tr>
+            <td><%= user['id'] %></td>
+            <td><%= user['username'] %></td>
+            <td><%= user['email'] %></td>
+            <td><%= user['role'] %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
   </div>
 </body>
 </html>

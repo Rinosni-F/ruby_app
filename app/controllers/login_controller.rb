@@ -40,13 +40,13 @@ class LoginController
 
   def render_login_form
     headers = {'Content-Type' => 'text/html'}
-    response = File.read('app/views/login/login_home.html')
+    response = File.read('app/views/login/login_home.html.erb')
     [200, headers, [response]]
   end
 
   def render_success_message
     headers = {'Content-Type' => 'text/html'}
-    response = File.read('app/views/home/index.erb')
+    response = File.read('app/views/home/index.html.erb')
     [200, headers, [response]]
   end
   
@@ -58,7 +58,7 @@ class LoginController
   end
 
   def modify_html(section_id)
-    html = File.read('app/views/login/login_home.html')
+    html = File.read('app/views/login/login_home.html.erb')
     html.gsub!(%r{id="login-form" class="center"}, 'id="login-form" class="center hidden"')
     html.gsub!(%r{id="#{section_id}" class="center hidden"}, 'id="#{section_id}" class="center"')
     html

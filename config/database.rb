@@ -18,21 +18,4 @@ class Database
   
 end
 
-# Usage example:
-db = Database.client('development')
 
-def create_user_table(db)
-  db.query <<-SQL
-    CREATE TABLE IF NOT EXISTS users (
-      id INTEGER PRIMARY KEY AUTO_INCREMENT,
-      username TEXT,
-      email TEXT,
-      password TEXT,
-      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-    )
-  SQL
-end
-
-
-# Call the method to create the user table
-create_user_table(db)
