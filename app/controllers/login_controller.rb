@@ -46,7 +46,7 @@ class LoginController
 
   def render_success_message
     headers = {'Content-Type' => 'text/html'}
-    response = File.read('app/views/home/index.html.erb')
+    response = File.read('app/views/home/show.html.erb')
     [200, headers, [response]]
   end
   

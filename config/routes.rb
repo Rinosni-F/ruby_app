@@ -13,8 +13,8 @@ class Routes
       AddUserController.new(@client).call(env)
     when '/add_user'
       AddUserController.new(@client).call(env)
-    when '/user_list'
-      HomeControllerController.new(@client).call(env)
+    when '/home'
+      HomeController.new(@client).call(env)
     else
       not_found
     end
