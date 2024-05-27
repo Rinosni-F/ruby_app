@@ -10,7 +10,10 @@ class LoginController
     request = Rack::Request.new(env)
     
     if request.post? && request.path == '/submit'
-      handle_form_submission(request)
+      @users = fetch_all_users_with_roles
+      render_user_list
+    elsif request.get? && request.path == '/home'
+      reload_current_page
     else
       render_login_form
     end
@@ -28,7 +31,18 @@ class LoginController
       render_failure_message
     end
   end
-
+  def fetch_all_users_with_roles
+    query = "SELECT id, username, email, role FROM users"
+    statement = @client.prepare(query)
+    statement.execute.to_a
+  end
+  def render_user_list
+    headers = {'Content-Type' => 'text/html'}
+    erb_file = File.read('app/views/home/index.html.erb')
+    template = ERB.new(erb_file)
+    response = template.result(binding)
+    [200, headers, [response]]
+  end
   def valid_user?(username, password)
     query = "SELECT password FROM users WHERE username = ? LIMIT 1"
     statement = @client.prepare(query)
@@ -62,5 +76,10 @@ class LoginController
     html.gsub!(%r{id="login-form" class="center"}, 'id="login-form" class="center hidden"')
     html.gsub!(%r{id="#{section_id}" class="center hidden"}, 'id="#{section_id}" class="center"')
     html
+  end
+  def reload_current_page
+    headers = { 'Content-Type' => 'text/html' }
+    body = '<html><head><meta http-equiv="refresh" content="0"></head></html>' # Refresh the page
+    [200, headers, [body]]
   end
 end
