@@ -31,10 +31,15 @@ class LoginController
     password = request.params['password']
 
     if valid_user?(username, password)
-      render_success_message
+      redirect_to_index_with_message('login successfully')
     else
       render_failure_message
     end
+  end
+  def redirect_to_index_with_message(message)
+    @success_message = message
+    @users = fetch_all_users_with_roles
+    render_user_list
   end
   def fetch_all_users_with_roles
     query = "SELECT id, username, email, role FROM users"
@@ -61,26 +66,6 @@ class LoginController
     headers = {'Content-Type' => 'text/html'}
     response = File.read('app/views/login/login_home.html.erb')
     [200, headers, [response]]
-  end
-
-  def render_success_message
-    headers = {'Content-Type' => 'text/html'}
-    response = File.read('app/views/home/show.html.erb')
-    [200, headers, [response]]
-  end
-  
-
-  def render_failure_message
-    headers = {'Content-Type' => 'text/html'}
-    response = modify_html('failure-message')
-    [200, headers, [response]]
-  end
-
-  def modify_html(section_id)
-    html = File.read('app/views/login/login_home.html.erb')
-    html.gsub!(%r{id="login-form" class="center"}, 'id="login-form" class="center hidden"')
-    html.gsub!(%r{id="#{section_id}" class="center hidden"}, 'id="#{section_id}" class="center"')
-    html
   end
   def fetch_user_by_id(user_id)
     query = "SELECT id, username, email, role FROM users WHERE id = ?"
