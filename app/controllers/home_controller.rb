@@ -10,7 +10,7 @@ class HomeController
       user_id = request.path.split('/').last.to_i
       @user = fetch_user_by_id(user_id)
       update_user(user_id, request.params)
-      return redirect_to_index_with_message
+      return redirect_to_index
     end
   end
 
@@ -28,10 +28,11 @@ class HomeController
     statement.execute(user_id).first
   end
 
-  def redirect_to_index_with_message
+  def redirect_to_index
     headers = { 'Content-Type' => 'text/html', 'Location' => '/home' }
     response = File.read('app/views/home/index.html.erb')
     [302, headers, [response]]
   end
 
+  
 end

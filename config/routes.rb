@@ -19,6 +19,8 @@ class Routes
     LoginController.new(@client).call(env)
     when %r{/update_user/\d+} 
     HomeController.new(@client).call(env)
+    when %r{/delete_user/\d+} 
+    HomeController.new(@client).call(env)
     else
       not_found
     end
