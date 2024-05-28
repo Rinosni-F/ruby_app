@@ -25,9 +25,7 @@ class AddUserController
 
 
     if insert_user(username, email, password, role)
-      render_success_message
-    else
-      render_failure_message
+      redirect_to_index_with_message('User added successfully!')
     end
   end
 
@@ -41,30 +39,30 @@ class AddUserController
     false # Return false to indicate failure
   end
   
-
   def render_add_user_form
     headers = {'Content-Type' => 'text/html'}
     response = File.read('app/views/home/adduser.html.erb')
     [200, headers, [response]]
   end
 
-  def render_success_message
-    headers = {'Content-Type' => 'text/html'}
-    response = modify_html('success-message')
-    [200, headers, [response]]
+  def redirect_to_index_with_message(message)
+    @success_message = message
+    @users = fetch_all_users_with_roles
+    render_user_list
   end
 
-  def render_failure_message
-    headers = {'Content-Type' => 'text/html'}
-    response = modify_html('failure-message')
-    [200, headers, [response]]
+  def fetch_all_users_with_roles
+    query = "SELECT id, username, email, role FROM users"
+    statement = @client.prepare(query)
+    result = statement.execute.to_a
+    puts "Fetched Users: #{result.inspect}" # Debugging line
+    result
   end
-
-  def modify_html(section_id)
-    html = File.read('app/views/home/adduser.html.erb')
-    html.gsub!(%r{id="login-form" class="center"}, 'id="login-form" class="center hidden"')
-    html.gsub!(%r{id="success-message" class="center hidden"}, 'id="success-message" class="center"') if section_id == 'success-message'
-    html.gsub!(%r{id="failure-message" class="center hidden"}, 'id="failure-message" class="center"') if section_id == 'failure-message'
-    html
+  def render_user_list
+    headers = { 'Content-Type' => 'text/html' }
+    erb_file = File.read('app/views/home/index.html.erb')
+    template = ERB.new(erb_file)
+    response = template.result(binding)
+    [200, headers, [response]]
   end
 end

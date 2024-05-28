@@ -29,7 +29,13 @@
             </ul>
         </div>
     </nav>
-
+    <div class="container center">
+  <% if @success_message %>
+      <div class="alert alert-success">
+        <%= @success_message %>
+      </div>
+    <% end %>
+    </div>
   <div class="container center">
     <h1>User list</h1>
     <table class="table table-striped">
