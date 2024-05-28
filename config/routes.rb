@@ -15,9 +15,9 @@ class Routes
       AddUserController.new(@client).call(env)
     when '/home'
       LoginController.new(@client).call(env)
-    when '/edit_user'
-      HomeController.new(@client).call(env)
-    when '%r{/edit_user/\d+}'
+    when %r{/edit_user/\d+} 
+    LoginController.new(@client).call(env)
+    when %r{/update_user/\d+} 
     HomeController.new(@client).call(env)
     else
       not_found

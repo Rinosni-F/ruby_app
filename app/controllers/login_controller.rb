@@ -15,11 +15,15 @@ class LoginController
     elsif request.get? && request.path == '/home'
       @users = fetch_all_users_with_roles
       render_user_list
+    elsif request.get? && request.path.start_with?('/edit_user/')  # Handle edit user request
+      user_id = request.path.split('/').last.to_i
+      @user = fetch_user_by_id(user_id)
+      render_edit_page
     else
       render_login_form
     end
   end
-
+  
   private
 
   def handle_form_submission(request)
@@ -78,9 +82,17 @@ class LoginController
     html.gsub!(%r{id="#{section_id}" class="center hidden"}, 'id="#{section_id}" class="center"')
     html
   end
-  def reload_current_page
-    headers = { 'Content-Type' => 'text/html' }
-    body = '<html><head><meta http-equiv="refresh" content="0"></head></html>' # Refresh the page
-    [200, headers, [body]]
+  def fetch_user_by_id(user_id)
+    query = "SELECT id, username, email, role FROM users WHERE id = ?"
+    statement = @client.prepare(query)
+    statement.execute(user_id).first
+  end
+
+  def render_edit_page
+    headers = {'Content-Type' => 'text/html'}
+    erb_file = File.read('app/views/home/edit.html.erb')
+    template = ERB.new(erb_file)
+    response = template.result(binding)
+    [200, headers, [response]]
   end
 end
