@@ -13,7 +13,8 @@ class LoginController
       @users = fetch_all_users_with_roles
       render_user_list
     elsif request.get? && request.path == '/home'
-      reload_current_page
+      @users = fetch_all_users_with_roles
+      render_user_list
     else
       render_login_form
     end
