@@ -39,23 +39,9 @@ class HomeController
     statement.execute(params['username'], params['email'], params['role'], user_id)
   end
 
-  def fetch_user_by_id(user_id)
-    query = "SELECT id, username, email, role FROM users WHERE id = ?"
-    statement = @client.prepare(query)
-    statement.execute(user_id).first
-  end
-
   def render_user_list
     headers = { 'Content-Type' => 'text/html' }
     erb_file = File.read('app/views/home/index.html.erb')
-    template = ERB.new(erb_file)
-    response = template.result(binding)
-    [200, headers, [response]]
-  end
-
-  def render_edit_page
-    headers = { 'Content-Type' => 'text/html' }
-    erb_file = File.read('app/views/home/edit.html.erb')
     template = ERB.new(erb_file)
     response = template.result(binding)
     [200, headers, [response]]

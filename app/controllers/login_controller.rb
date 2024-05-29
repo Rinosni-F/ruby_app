@@ -36,6 +36,7 @@ class LoginController
       render_failure_message
     end
   end
+  
   def redirect_to_index_with_message(message)
     @success_message = message
     @users = fetch_all_users_with_roles
