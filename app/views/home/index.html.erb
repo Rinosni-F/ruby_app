@@ -1,33 +1,32 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Home Page</title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+  <title>User List</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
 </head>
 <body>
   <div class="container">
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="/home">Home</a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        User
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="/add_user">Add User</a>
-                    </div>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/logout">Logout</a>
-                </li>
-            </ul>
-        </div>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="/home">Home</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              User
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="/add_user">Add User</a>
+            </div>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/logout">Logout</a>
+          </li>
+        </ul>
+      </div>
     </nav>
     <div class="container center">
   <% if @success_message %>
@@ -36,9 +35,8 @@
       </div>
     <% end %>
     </div>
-  <div class="container center">
-    <h1>User list</h1>
-    <table class="table table-striped">
+    <h1 class="center">User List</h1>
+    <table class="table" id="user-table">
       <thead>
         <tr>
           <th>ID</th>
@@ -46,36 +44,36 @@
           <th>Email</th>
           <th>Role</th>
           <th>Action</th>
+
         </tr>
       </thead>
       <tbody>
-        <% if @users %>
-          <% @users.each do |user| %>
-            <tr>
-              <td><%= user['id'] %></td>
-              <td><%= user['username'] %></td>
-              <td><%= user['email'] %></td>
-              <td><%= user['role'] %></td>
-              <td>
-                <a class="btn btn-xs" href="/edit_user/<%= user['id'] %>" title="Edit">
-                  <i class="fas fa-edit"></i>
-                </a>
-                <a class="btn btn-xs" href="/delete_user/<%= user['id'] %>" title="Delete">
-                  <i class="fas fa-trash"></i>
-                </a>
-              </td>
-            </tr>
-          <% end %>
-        <% else %>
-          <tr>
-            <td colspan="5">No users found</td>
-          </tr>
-        <% end %>
+        <!-- User data will be populated here by JavaScript -->
       </tbody>
     </table>
   </div>
- </div>
-  <style>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const users = <%= @users.to_json %>;
+      
+      const tableBody = document.getElementById('user-table').getElementsByTagName('tbody')[0];
+      users.forEach(user => {
+        const row = tableBody.insertRow();
+        row.insertCell(0).textContent = user.id;
+        row.insertCell(1).textContent = user.username;
+        row.insertCell(2).textContent = user.email;
+        row.insertCell(3).textContent = user.role;
+        const actionCell = row.insertCell(4);
+        actionCell.innerHTML = `<a class="btn btn-xs" href="/edit_user/${user.id}" title="Edit">
+            <i class="fas fa-edit"></i>
+          </a>
+          <a class="btn btn-xs" href="/delete_user/${user.id}" title="Delete">
+            <i class="fas fa-trash"></i>
+          </a>`;
+      });
+    });
+  </script><style>
     .center {
       text-align: center;
       margin-top: 20px;

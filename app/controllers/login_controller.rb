@@ -1,5 +1,6 @@
 require 'rack'
 require 'bcrypt'
+require 'json'
 
 class LoginController
   def initialize(client)
@@ -10,8 +11,9 @@ class LoginController
     request = Rack::Request.new(env)
     
     if request.post? && request.path == '/submit'
-      @users = fetch_all_users_with_roles
-      render_user_list
+      handle_form_submission(request)
+      # @users = fetch_all_users_with_roles
+      # render_user_list
     elsif request.get? && request.path == '/home'
       @users = fetch_all_users_with_roles
       render_user_list
@@ -31,9 +33,9 @@ class LoginController
     password = request.params['password']
 
     if valid_user?(username, password)
-      redirect_to_index_with_message('login successfully')
+      redirect_to_index_with_message('Login successful')
     else
-      render_failure_message
+      redirect_to_index_with_failure_message('Login failed')
     end
   end
   
@@ -41,6 +43,11 @@ class LoginController
     @success_message = message
     @users = fetch_all_users_with_roles
     render_user_list
+  end
+  
+  def redirect_to_index_with_failure_message(message)
+    @failure_message = message
+    render_login_form
   end
   def fetch_all_users_with_roles
     query = "SELECT id, username, email, role FROM users"
@@ -66,6 +73,14 @@ class LoginController
   def render_login_form
     headers = {'Content-Type' => 'text/html'}
     response = File.read('app/views/login/login_home.html.erb')
+    # Append failure message if it exists
+  if @failure_message
+    response += %(
+      <div class="container center alert alert-danger">
+        #{@failure_message}
+      </div>
+    )
+  end
     [200, headers, [response]]
   end
   def fetch_user_by_id(user_id)
