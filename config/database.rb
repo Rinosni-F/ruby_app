@@ -6,7 +6,7 @@ class Database
   def self.client(env = 'development')
     db_config = YAML.safe_load(ERB.new(File.read('config/database.yml')).result, aliases: true)[env]
     raise "Database configuration not found for environment: #{env}" if db_config.nil?
-  
+
     Mysql2::Client.new(
       host: db_config['host'],
       username: db_config['username'],
@@ -15,7 +15,4 @@ class Database
       encoding: db_config['encoding']
     )
   end
-  
 end
-
-

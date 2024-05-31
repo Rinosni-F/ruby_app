@@ -1,13 +1,8 @@
 require 'bcrypt'
 
-class AddUserController
-  def initialize(client)
-    @client = client
-  end
-
-  def call(env)
-    request = Rack::Request.new(env)
-
+class AddUserController < ApplicationController
+  
+  def route_request(request)
     if request.post? && request.path == '/add_user'
       handle_form_submission(request)
     else

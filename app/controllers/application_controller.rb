@@ -1,18 +1,20 @@
-require_relative '../../config/database'
-require_relative '../../config/routes'
-require_relative 'login_controller'
-require_relative 'adduser_controller'
-require_relative 'home_controller'
-
+require 'rack'
+require 'json'
+require 'erb'
 
 class ApplicationController
-  def initialize(db_config)
-    @client = Database.client(db_config)
-    @routes = Routes.new(@client)
+  def initialize(client)
+    @client = client
   end
-  
 
   def call(env)
-    @routes.call(env)
+    request = Rack::Request.new(env)
+    route_request(request)
+  end
+
+  protected
+
+  def redirect_to(path)
+    [302, {'Location' => path}, []]
   end
 end

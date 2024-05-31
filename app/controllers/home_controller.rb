@@ -1,11 +1,6 @@
-class HomeController
-  def initialize(client)
-    @client = client
-  end
+class HomeController  < ApplicationController
 
-  def call(env)
-    request = Rack::Request.new(env)
-    
+  def route_request(request)
     if request.post? && request.path.start_with?('/update_user/')  # Handle update user request
       user_id = request.path.split('/').last.to_i
       update_user(user_id, request.params)

@@ -9,6 +9,8 @@ class Routes
       LoginController.new(@client).call(env)
     when '/submit'
       LoginController.new(@client).call(env)
+    when '/logout'
+      LoginController.new(@client).call(env)
     when '/adduser'
       AddUserController.new(@client).call(env)
     when '/add_user'

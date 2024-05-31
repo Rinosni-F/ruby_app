@@ -1,31 +1,23 @@
-require 'rack'
 require 'bcrypt'
-require 'json'
 
-class LoginController
-  def initialize(client)
-    @client = client
-  end
-
-  def call(env)
-    request = Rack::Request.new(env)
-    
+class LoginController < ApplicationController
+  def route_request(request)
     if request.post? && request.path == '/submit'
       handle_form_submission(request)
-      # @users = fetch_all_users_with_roles
-      # render_user_list
     elsif request.get? && request.path == '/home'
       @users = fetch_all_users_with_roles
       render_user_list
-    elsif request.get? && request.path.start_with?('/edit_user/')  # Handle edit user request
+    elsif request.get? && request.path.start_with?('/edit_user/')
       user_id = request.path.split('/').last.to_i
       @user = fetch_user_by_id(user_id)
       render_edit_page
+    elsif request.post? && request.path == '/logout'
+      render_login_form
     else
       render_login_form
     end
   end
-  
+
   private
 
   def handle_form_submission(request)
@@ -38,13 +30,18 @@ class LoginController
       redirect_to_index_with_failure_message('Login failed')
     end
   end
-  
+  def fetch_user_by_id(user_id)
+    query = "SELECT id, username, email, role FROM users WHERE id = ?"
+    statement = @client.prepare(query)
+    statement.execute(user_id).first
+  end
+
   def redirect_to_index_with_message(message)
     @success_message = message
     @users = fetch_all_users_with_roles
     render_user_list
   end
-  
+
   def redirect_to_index_with_failure_message(message)
     @failure_message = message
     render_login_form
@@ -82,11 +79,6 @@ class LoginController
     )
   end
     [200, headers, [response]]
-  end
-  def fetch_user_by_id(user_id)
-    query = "SELECT id, username, email, role FROM users WHERE id = ?"
-    statement = @client.prepare(query)
-    statement.execute(user_id).first
   end
 
   def render_edit_page
