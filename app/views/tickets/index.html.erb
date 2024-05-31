@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Ticket List</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+  <div class="container mt-5">
+    <h1 class="text-center">Ticket List</h1>
+    <% if @success_message %>
+      <div class="alert alert-success">
+        <%= @success_message %>
+      </div>
+    <% end %>
+    <table class="table table-striped" id="ticket-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Booking Date</th>
+          <th>Bus Name</th>
+          <th>Quantity</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if @tickets %>
+          <% @tickets.each do |ticket| %>
+            <tr>
+              <td><%= ticket['id'] %></td>
+              <td><%= ticket['name'] %></td>
+              <td><%= ticket['email'] %></td>
+              <td><%= ticket['booking_date'] %></td>
+              <td><%= ticket['bus_name'] %></td>
+              <td><%= ticket['quantity'] %></td>
+            </tr>
+          <% end %>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+  <style>
+    .text-center {
+      text-align: center;
+      margin-top: 20px;
+    }
+  </style>
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</body>
+</html>

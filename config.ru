@@ -4,6 +4,8 @@ require_relative 'app/controllers/application_controller'
 require_relative 'app/controllers/login_controller'
 require_relative 'app/controllers/adduser_controller'
 require_relative 'app/controllers/home_controller'
+require_relative 'app/controllers/tickets_controller'
+
 
 
 db_config = 'development' # Adjust according to your environment

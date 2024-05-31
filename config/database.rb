@@ -15,4 +15,17 @@ class Database
       encoding: db_config['encoding']
     )
   end
+  query = <<~SQL
+  CREATE TABLE IF NOT EXISTS tickets (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    booking_date DATE NOT NULL,
+    bus_name VARCHAR(255) NOT NULL,
+    quantity INT NOT NULL
+  )
+SQL
+
+client.query(query)
+
 end

@@ -23,6 +23,10 @@ class Routes
     HomeController.new(@client).call(env)
     when %r{/delete_user/\d+} 
     HomeController.new(@client).call(env)
+    when '/tickets'
+      TicketsController.new(@client).call(env)
+    when '/tickets_book'
+      TicketsController.new(@client).call(env)
     else
       not_found
     end
