@@ -16,22 +16,22 @@ class HomeController  < ApplicationController
 
   def delete_user(user_id)
     query = "DELETE FROM users WHERE id = ?"
-    statement = @client.prepare(query)
-    statement.execute(user_id)
+    user = @client.prepare(query)
+    user.execute(user_id)
   end
 
   def fetch_all_users_with_roles
     query = "SELECT id, username, email, role FROM users"
-    statement = @client.prepare(query)
-    result = statement.execute.to_a
+    user = @client.prepare(query)
+    result = user.execute.to_a
     puts "Fetched Users: #{result.inspect}" # Debugging line
     result
   end
 
   def update_user(user_id, params)
     query = "UPDATE users SET username = ?, email = ?, role = ? WHERE id = ?"
-    statement = @client.prepare(query)
-    statement.execute(params['username'], params['email'], params['role'], user_id)
+    user = @client.prepare(query)
+    user.execute(params['username'], params['email'], params['role'], user_id)
   end
 
   def render_user_list

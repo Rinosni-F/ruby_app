@@ -26,8 +26,8 @@ class AddUserController < ApplicationController
 
   def insert_user(username, email, password, role)
     query = "INSERT INTO users (username, email, password, role) VALUES (?, ?, ?, ?)"
-    statement = @client.prepare(query)
-    statement.execute(username, email, password, role)
+    user = @client.prepare(query)
+    user.execute(username, email, password, role)
     true # Return true to indicate success
   rescue StandardError => e
     puts "Error inserting user: #{e.message}" # Log the error message
@@ -48,8 +48,8 @@ class AddUserController < ApplicationController
 
   def fetch_all_users_with_roles
     query = "SELECT id, username, email, role FROM users"
-    statement = @client.prepare(query)
-    result = statement.execute.to_a
+    user = @client.prepare(query)
+    result = user.execute.to_a
     puts "Fetched Users: #{result.inspect}" # Debugging line
     result
   end

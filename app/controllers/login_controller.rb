@@ -32,8 +32,8 @@ class LoginController < ApplicationController
   end
   def fetch_user_by_id(user_id)
     query = "SELECT id, username, email, role FROM users WHERE id = ?"
-    statement = @client.prepare(query)
-    statement.execute(user_id).first
+    user = @client.prepare(query)
+    user.execute(user_id).first
   end
 
   def redirect_to_index_with_message(message)
@@ -48,8 +48,8 @@ class LoginController < ApplicationController
   end
   def fetch_all_users_with_roles
     query = "SELECT id, username, email, role FROM users"
-    statement = @client.prepare(query)
-    statement.execute.to_a
+    user = @client.prepare(query)
+    user.execute.to_a
   end
   def render_user_list
     headers = {'Content-Type' => 'text/html'}
@@ -60,8 +60,8 @@ class LoginController < ApplicationController
   end
   def valid_user?(username, password)
     query = "SELECT password FROM users WHERE username = ? LIMIT 1"
-    statement = @client.prepare(query)
-    result = statement.execute(username).first
+    user = @client.prepare(query)
+    result = user.execute(username).first
     return false unless result
     hashed_password = result['password']
     BCrypt::Password.new(hashed_password) == password
