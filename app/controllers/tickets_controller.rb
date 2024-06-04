@@ -1,9 +1,20 @@
+# app/controllers/tickets_controller.rb
+require 'erb'
+require_relative '../models/ticket'
+
 class TicketsController < ApplicationController
   def route_request(request)
-    if request.get? && request.path == '/tickets'
-      render_new
-    elsif request.post? && request.path == '/tickets_book'
-      handle_form_submission(request)
+    case request.path
+    when '/tickets'
+      render_new if request.get?
+    when %r{^/tickets/(\d+)$}
+      if request.get?
+        show_ticket($1.to_i)
+      else
+        not_found
+      end
+    when '/tickets_book'
+      handle_form_submission(request) if request.post?
     else
       render_new
     end
@@ -20,32 +31,51 @@ class TicketsController < ApplicationController
   end
 
   def handle_form_submission(request)
-    @name = request.params['name']
     @success_message = nil
     @error_message = nil
 
-    @name = request.params['name']
-    @email = request.params['email']
-    @booking_date = request.params['booking_date']
-    @bus_name = request.params['bus_name']
-    @quantity = request.params['quantity']
+    # Create a new Ticket instance with form parameters
+    @ticket = Ticket.new(
+      name: request.params['name'],
+      email: request.params['email'],
+      booking_date: request.params['booking_date'],
+      bus_name: request.params['bus_name'],
+      quantity: request.params['quantity'],
+      start_location: request.params['start_location'],
+      end_location: request.params['end_location']
+    )
 
-    if insert_ticket
-      @success_message = 'Ticket added successfully!'
+    # Save the ticket and set the success or error message
+    if @ticket.save
+      redirect_to("/tickets/#{@ticket.id}")
     else
       @error_message = 'Failed to add ticket.'
+      render_new
     end
-
-    render_new
   end
 
-  def insert_ticket
-    query = "INSERT INTO tickets (name, email, booking_date, bus_name, quantity) VALUES (?, ?, ?, ?, ?)"
-    statement = @client.prepare(query)
-    statement.execute(@name, @email, @booking_date, @bus_name, @quantity)
-    true # Return true to indicate success
-  rescue StandardError => e
-    puts "Error inserting ticket: #{e.message}" # Log the error message
-    false # Return false to indicate failure
+  def show_ticket(id)
+    @ticket = Ticket.find_by(id: id)
+    if @ticket
+      render_show
+    else
+      not_found
+    end
+  end
+
+  def render_show
+    headers = { 'Content-Type' => 'text/html' }
+    erb_file = File.read('app/views/tickets/show.html.erb')
+    template = ERB.new(erb_file)
+    response = template.result(binding)
+    [200, headers, [response]]
+  end
+
+  def not_found
+    [404, { 'Content-Type' => 'text/html' }, ['Page Not Found']]
+  end
+
+  def redirect_to(path)
+    [302, { 'Location' => path }, []]
   end
 end

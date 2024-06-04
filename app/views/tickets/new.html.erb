@@ -1,3 +1,4 @@
+<!-- app/views/tickets/new.html.erb -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,41 +15,49 @@
     <% elsif @error_message %>
       <div class="alert alert-danger"><%= @error_message %></div>
     <% end %>
-  <div class="container mt-5">
-    <div class="card mx-auto" style="max-width: 400px;">
-      <div class="card-header bg-primary text-white">
-        <h5 class="card-title text-center">Book Tickets</h5>
-      </div>
-      <div class="card-body">
-        <form action="/tickets_book" method="post">
-          <div class="form-group">
-            <label for="name">Name:</label>
-            <input type="text" class="form-control" id="name" name="name" required>
-          </div>
-          <div class="form-group">
-            <label for="email">Email:</label>
-            <input type="email" class="form-control" id="email" name="email" required>
-          </div>
-          <div class="form-group">
-            <label for="booking_date">Booking Date:</label>
-            <input type="date" class="form-control" id="booking_date" name="booking_date" required>
-          </div>
-          <div class="form-group">
-            <label for="bus_name">Bus Name:</label>
-            <select class="form-control" id="bus_name" name="bus_name" required>
-              <option value="">Select Bus</option>
-              <option value="Bus 1">Bus 1</option>
-              <option value="Bus 2">Bus 2</option>
-              <option value="Bus 3">Bus 3</option>
-              <!-- Add more options here as needed -->
-            </select>
-          </div>
-          <div class="form-group">
-            <label for="quantity">Quantity:</label>
-            <input type="number" class="form-control" id="quantity" name="quantity" min="1" required>
-          </div>
-          <button type="submit" class="btn btn-primary btn-block">Book Tickets</button>
-        </form>
+    <div class="container mt-5">
+      <div class="card mx-auto" style="max-width: 400px;">
+        <div class="card-header bg-primary text-white">
+          <h5 class="card-title text-center">Book Tickets</h5>
+        </div>
+        <div class="card-body">
+          <form action="/tickets_book" method="post">
+            <div class="form-group">
+              <label for="name">Name:</label>
+              <input type="text" class="form-control" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+              <label for="email">Email:</label>
+              <input type="email" class="form-control" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+              <label for="booking_date">Booking Date:</label>
+              <input type="date" class="form-control" id="booking_date" name="booking_date" required>
+            </div>
+            <div class="form-group">
+              <label for="bus_name">Bus Name:</label>
+              <select class="form-control" id="bus_name" name="bus_name" required>
+                <option value="">Select Bus</option>
+                <option value="Bus 1">Bus 1</option>
+                <option value="Bus 2">Bus 2</option>
+                <option value="Bus 3">Bus 3</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="quantity">Quantity:</label>
+              <input type="number" class="form-control" id="quantity" name="quantity" min="1" required>
+            </div>
+            <div class="form-group">
+              <label for="start_location">Start Location:</label>
+              <input type="text" class="form-control" id="start_location" name="start_location" required>
+            </div>
+            <div class="form-group">
+              <label for="end_location">End Location:</label>
+              <input type="text" class="form-control" id="end_location" name="end_location" required>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Book Tickets</button>
+          </form>
+        </div>
       </div>
     </div>
   </div>

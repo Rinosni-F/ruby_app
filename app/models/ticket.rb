@@ -1,19 +1,13 @@
 # app/models/ticket.rb
-
-class Ticket
-    attr_accessor :name, :email, :booking_date, :bus_name, :quantity
+class Ticket < ActiveRecord::Base
+    self.table_name = 'dev_tables.tickets' # Use this if the table name is non-standard
   
-    def initialize(attributes = {})
-      @name = attributes[:name]
-      @email = attributes[:email]
-      @booking_date = attributes[:booking_date]
-      @bus_name = attributes[:bus_name]
-      @quantity = attributes[:quantity]
-    end
-    def save_to_db(database)
-        query = "INSERT INTO tickets (name, email, booking_date, bus_name, quantity) VALUES (?, ?, ?, ?, ?)"
-        statement = database.prepare(query)
-        statement.execute(name, email, booking_date, bus_name,quantity)
-      end
+    validates :name, presence: true
+    validates :email, presence: true
+    validates :booking_date, presence: true
+    validates :bus_name, presence: true
+    validates :quantity, presence: true
+    validates :start_location, presence: true
+    validates :end_location, presence: true
   end
   

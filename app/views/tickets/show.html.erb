@@ -1,0 +1,34 @@
+<!-- app/views/tickets/show.html.erb -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ticket Details</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+  <div class="container mt-5">
+    <div class="card mx-auto" style="max-width: 600px;">
+      <div class="card-header bg-primary text-white">
+        <h5 class="card-title text-center">Ticket Details</h5>
+      </div>
+      <div class="card-body">
+        <p><strong>Name:</strong> <%= @ticket.name %></p>
+        <p><strong>Email:</strong> <%= @ticket.email %></p>
+        <p><strong>Booking Date:</strong> <%= @ticket.booking_date %></p>
+        <p><strong>Bus Name:</strong> <%= @ticket.bus_name %></p>
+        <p><strong>Quantity:</strong> <%= @ticket.quantity %></p>
+        <p><strong>Start Location:</strong> <%= @ticket.start_location %></p>
+        <p><strong>End Location:</strong> <%= @ticket.end_location %></p>
+        <a href="/tickets" class="btn btn-primary">Back to Booking</a>
+      </div>
+    </div>
+  </div>
+  <!-- Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

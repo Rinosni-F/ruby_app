@@ -1,27 +1,10 @@
 
-default: &default
-  # adapter: sqlite3
-  pool: 5
-  timeout: 5000
-
+# config/database.yml
 development:
-  # <<: *default
-  # database: db/development.sqlite3
   adapter: mysql2
+  encoding: utf8
   database: dev_tables
   username: root
   password: rino
   host: localhost
   port: 3306
-#   encoding: utf8
-
-test:
-  <<: *default
-  #database: db/development.sqlite3
-  adapter: mysql2
-  database: q_cloud_test
-  username: root
-  password: root
-  host: 127.0.0.1
-  port: 3306
-  encoding: utf8
