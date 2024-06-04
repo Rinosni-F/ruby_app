@@ -1,17 +1,11 @@
-require 'bcrypt'
+# app/models/user.rb
+class User < ActiveRecord::Base
+    self.table_name = 'dev_tables.users' # Use this if the table name is non-standard
+    has_secure_password
 
-class User
-  attr_accessor :username, :email, :password, :role
-
-  def initialize(username:, email:, password:, role:)
-    @username = username
-    @password = BCrypt::Password.create(password) # Hashing the password
-    @role = role
+    validates :username, presence: true
+    validates :email, presence: true
+    validates :password_digest, presence: true
+    validates :role, presence: true
   end
-
-  def save_to_db(database)
-    query = "INSERT INTO users (username, email, password, role) VALUES (?, ?, ?, ?)"
-    statement = database.prepare(query)
-    statement.execute(username, email, password, role)
-  end
-end
+  

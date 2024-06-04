@@ -1,10 +1,13 @@
+require 'rack'
 require 'bcrypt'
+require_relative '../models/user'
 
 class AddUserController < ApplicationController
-  
   def route_request(request)
     if request.post? && request.path == '/add_user'
       handle_form_submission(request)
+    elsif request.get? && request.path.match('/users/')
+      show_user(request)
     else
       render_add_user_form
     end
@@ -13,51 +16,58 @@ class AddUserController < ApplicationController
   private
 
   def handle_form_submission(request)
-    username = request.params['username']
-    email = request.params['email']
-    password = BCrypt::Password.create(request.params['password'])
-    role = request.params['role']
+    @success_message = nil
+    @error_message = nil
+    @user = User.new(
+      username: request.params['username'],
+      email: request.params['email'],
+      password_digest: BCrypt::Password.create(request.params['password']),
+      role: request.params['role']
+    )
 
-
-    if insert_user(username, email, password, role)
-      redirect_to_index_with_message('User added successfully!')
+    if @user.save
+      redirect_to "/users/#{@user.id}"
+    else
+      @error_message = 'Failed to add user.'
+      render_add_user_form
     end
   end
 
-  def insert_user(username, email, password, role)
-    query = "INSERT INTO users (username, email, password, role) VALUES (?, ?, ?, ?)"
-    user = @client.prepare(query)
-    user.execute(username, email, password, role)
-    true # Return true to indicate success
-  rescue StandardError => e
-    puts "Error inserting user: #{e.message}" # Log the error message
-    false # Return false to indicate failure
-  end
-  
-  def render_add_user_form
-    headers = {'Content-Type' => 'text/html'}
-    response = File.read('app/views/home/adduser.html.erb')
-    [200, headers, [response]]
+  def show_user(request)
+    user_id = request.path.split('/').last.to_i
+    @user = User.find_by(id: user_id)
+    
+    if @user
+      render_show_user
+    else
+      not_found_response
+    end
   end
 
-  def redirect_to_index_with_message(message)
-    @success_message = message
-    @users = fetch_all_users_with_roles
-    render_user_list
-  end
-
-  def fetch_all_users_with_roles
-    query = "SELECT id, username, email, role FROM users"
-    user = @client.prepare(query)
-    result = user.execute.to_a
-    puts "Fetched Users: #{result.inspect}" # Debugging line
-    result
-  end
-  def render_user_list
-    headers = { 'Content-Type' => 'text/html' }
-    erb_file = File.read('app/views/home/index.html.erb')
+  def render_show_user
+    erb_file = File.read('app/views/home/show.html.erb')
+    puts "Debug: Rendering show user page with user #{@user.inspect}"  # Debugging line
     template = ERB.new(erb_file)
-    response = template.result(binding)
-    [200, headers, [response]]
+    response_body = template.result(binding)
+
+    headers = { 'Content-Type' => 'text/html' }
+    [200, headers, [response_body]]
+  end
+
+  def render_add_user_form
+    @error_message ||= nil
+    @success_message ||= nil
+    erb_file = File.read('app/views/home/adduser.html.erb')
+    puts "Debug: Rendering add user form"  # Debugging line
+    template = ERB.new(erb_file)
+    response_body = template.result(binding)
+
+    headers = { 'Content-Type' => 'text/html' }
+    [200, headers, [response_body]]
+  end
+
+  def not_found_response
+    headers = { 'Content-Type' => 'text/plain' }
+    [404, headers, ['User not found']]
   end
 end

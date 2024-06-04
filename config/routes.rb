@@ -15,6 +15,10 @@ class Routes
       AddUserController.new(@client).call(env)
     when '/add_user'
       AddUserController.new(@client).call(env)
+    when %r{/users/\d+} 
+    AddUserController.new(@client).call(env)
+   when '/users' 
+   AddUserController.new(@client).call(env)
     when '/home'
       LoginController.new(@client).call(env)
     when %r{/edit_user/\d+} 

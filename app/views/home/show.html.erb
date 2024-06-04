@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>User Details</title>
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+  <div class="container">
+    <h1 class="mt-5">User Details</h1>
+    <% if @user %>
+      <div class="card mt-3">
+        <div class="card-body">
+          <h5 class="card-title"><%= @user.username %></h5>
+          <p class="card-text"><strong>Email:</strong> <%= @user.email %></p>
+          <p class="card-text"><strong>Role:</strong> <%= @user.role %></p>
+          <a href="/add_user" class="btn btn-primary">Back to Users List</a>
+        </div>
+      </div>
+    <% else %>
+      <div class="alert alert-danger">User not found.</div>
+    <% end %>
+  </div>
+</body>
+</html>

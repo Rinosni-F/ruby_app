@@ -4,17 +4,12 @@ require_relative '../models/ticket'
 
 class TicketsController < ApplicationController
   def route_request(request)
-    case request.path
-    when '/tickets'
-      render_new if request.get?
-    when %r{^/tickets/(\d+)$}
-      if request.get?
-        show_ticket($1.to_i)
-      else
-        not_found
-      end
-    when '/tickets_book'
-      handle_form_submission(request) if request.post?
+    if request.get? && request.path == '/tickets'
+      render_new
+    elsif request.post? && request.path == '/tickets_book'
+      handle_form_submission(request)
+    elsif request.get? && request.path.match(/^\/tickets\/(\d+)$/)
+      show_ticket($1.to_i)
     else
       render_new
     end

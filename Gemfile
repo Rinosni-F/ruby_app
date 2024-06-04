@@ -9,5 +9,7 @@ gem'mysql2','~>0.5.3'
 gem 'pry'
 gem 'activerecord'
 gem 'rake'
+gem 'bcrypt'
+
 
 
