@@ -51,7 +51,7 @@ class AddUserController < ApplicationController
     response_body = template.result(binding)
 
     # Add an edit link to the response body
-    response_body += "<a href='/edit_user?user_id=#{@user.id}' class='btn btn-primary'>Edit</a>"
+    # response_body += "<a href='/edit_user?user_id=#{@user.id}' class='btn btn-primary'>Edit</a>"
 
     headers = { 'Content-Type' => 'text/html' }
     [200, headers, [response_body]]
