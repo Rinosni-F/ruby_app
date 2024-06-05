@@ -1,4 +1,3 @@
-require 'rack'
 require 'bcrypt'
 require_relative '../models/user'
 
@@ -8,6 +7,8 @@ class AddUserController < ApplicationController
       handle_form_submission(request)
     elsif request.get? && request.path.match('/users/')
       show_user(request)
+    elsif request.get? && request.path == '/edit_user'
+      edit_user(request)
     else
       render_add_user_form
     end
@@ -46,9 +47,11 @@ class AddUserController < ApplicationController
 
   def render_show_user
     erb_file = File.read('app/views/home/show.html.erb')
-    puts "Debug: Rendering show user page with user #{@user.inspect}"  # Debugging line
     template = ERB.new(erb_file)
     response_body = template.result(binding)
+
+    # Add an edit link to the response body
+    response_body += "<a href='/edit_user?user_id=#{@user.id}' class='btn btn-primary'>Edit</a>"
 
     headers = { 'Content-Type' => 'text/html' }
     [200, headers, [response_body]]
@@ -58,7 +61,6 @@ class AddUserController < ApplicationController
     @error_message ||= nil
     @success_message ||= nil
     erb_file = File.read('app/views/home/adduser.html.erb')
-    puts "Debug: Rendering add user form"  # Debugging line
     template = ERB.new(erb_file)
     response_body = template.result(binding)
 
@@ -69,5 +71,21 @@ class AddUserController < ApplicationController
   def not_found_response
     headers = { 'Content-Type' => 'text/plain' }
     [404, headers, ['User not found']]
+  end
+
+  def edit_user(request)
+    user_id = request.params['user_id']
+    @user = User.find_by(id: user_id)
+    
+    if @user
+      erb_file = File.read('app/views/home/edit.html.erb')
+      template = ERB.new(erb_file)
+      response_body = template.result(binding)
+
+      headers = { 'Content-Type' => 'text/html' }
+      [200, headers, [response_body]]
+    else
+      not_found_response
+    end
   end
 end

@@ -2,9 +2,14 @@
 <html>
 <head>
   <title>User List</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <style>
+    .center {
+      text-align: center;
+      margin-top: 20px;
+    }
+  </style>
 </head>
 <body>
   <div class="container">
@@ -31,60 +36,17 @@
         </ul>
       </div>
     </nav>
-    <div class="container center">
-  <% if @success_message %>
-      <div class="alert alert-success">
-        <%= @success_message %>
-      </div>
-    <% end %>
+    <div class="center">
+      <% if @success_message %>
+        <div class="alert alert-success">
+          <%= @success_message %>
+        </div>
+      <% end %>
     </div>
-    <h1 class="center">User List</h1>
-    <table class="table" id="user-table">
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Username</th>
-          <th>Email</th>
-          <th>Role</th>
-          <th>Action</th>
-
-        </tr>
-      </thead>
-      <tbody>
-        <!-- User data will be populated here by JavaScript -->
-      </tbody>
-    </table>
   </div>
-
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      const users = <%= @users.to_json %>;
-      
-      const tableBody = document.getElementById('user-table').getElementsByTagName('tbody')[0];
-      users.forEach(user => {
-        const row = tableBody.insertRow();
-        row.insertCell(0).textContent = user.id;
-        row.insertCell(1).textContent = user.username;
-        row.insertCell(2).textContent = user.email;
-        row.insertCell(3).textContent = user.role;
-        const actionCell = row.insertCell(4);
-        actionCell.innerHTML = `<a class="btn btn-xs" href="/edit_user/${user.id}" title="Edit">
-            <i class="fas fa-edit"></i>
-          </a>
-          <a class="btn btn-xs" href="/delete_user/${user.id}" title="Delete">
-            <i class="fas fa-trash"></i>
-          </a>`;
-      });
-    });
-  </script><style>
-    .center {
-      text-align: center;
-      margin-top: 20px;
-    }
-  </style>
+  
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-</body>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 </body>
 </html>
