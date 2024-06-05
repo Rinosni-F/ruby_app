@@ -1,21 +1,6 @@
-# app/controllers/tickets_controller.rb
-require 'erb'
 require_relative '../models/ticket'
 
 class TicketsController < ApplicationController
-  def route_request(request)
-    if request.get? && request.path == '/tickets'
-      render_new
-    elsif request.post? && request.path == '/tickets_book'
-      handle_form_submission(request)
-    elsif request.get? && request.path.match(/^\/tickets\/(\d+)$/)
-      show_ticket($1.to_i)
-    else
-      render_new
-    end
-  end
-
-  private
 
   def render_new
     headers = { 'Content-Type' => 'text/html' }
@@ -29,7 +14,6 @@ class TicketsController < ApplicationController
     @success_message = nil
     @error_message = nil
 
-    # Create a new Ticket instance with form parameters
     @ticket = Ticket.new(
       name: request.params['name'],
       email: request.params['email'],
@@ -40,7 +24,6 @@ class TicketsController < ApplicationController
       end_location: request.params['end_location']
     )
 
-    # Save the ticket and set the success or error message
     if @ticket.save
       redirect_to("/tickets/#{@ticket.id}")
     else
@@ -49,8 +32,9 @@ class TicketsController < ApplicationController
     end
   end
 
-  def show_ticket(id)
-    @ticket = Ticket.find_by(id: id)
+  def show_ticket(request)
+    ticket_id = request.path.split('/').last.to_i
+    @ticket = Ticket.find_by(id: ticket_id)
     if @ticket
       render_show
     else

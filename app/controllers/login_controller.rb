@@ -1,15 +1,13 @@
 require 'bcrypt'
 
 class LoginController < ApplicationController
-  def route_request(request)
-    if request.post? && request.path == '/submit'
-      handle_form_submission(request)
-    else
-      render_login_form
-    end
-  end
-
-  private
+  # def route_request(request)
+  #   if request.post? && request.path == '/submit'
+  #     handle_form_submission(request)
+  #   else
+  #     render_login_form
+  #   end
+  # end
 
   def handle_form_submission(request)
     username = request.params['username']

@@ -1,46 +1,52 @@
+require 'rack'
+
 class Routes
   def initialize(client)
     @client = client
   end
 
   def call(env)
-    case env['PATH_INFO']
+    request = Rack::Request.new(env)
+
+    case request.path_info
     when '/'
-      LoginController.new(@client).call(env)
+      response = LoginController.new(@client).render_login_form
     when '/submit'
-      LoginController.new(@client).call(env)
+      response = request.post? ? LoginController.new(@client).handle_form_submission(request) : not_found
     when '/logout'
-      LoginController.new(@client).call(env)
-    when '/adduser'
-      AddUserController.new(@client).call(env)
+      response = LoginController.new(@client).render_login_form
     when '/add_user'
-      AddUserController.new(@client).call(env)
-    when %r{/users/\d+} 
-    AddUserController.new(@client).call(env)
-   when '/users' 
-   AddUserController.new(@client).call(env)
+      response = AddUserController.new(@client).render_add_user_form
+    when '/create_user'
+      response = request.post? ? AddUserController.new(@client).handle_form_submission(request) : not_found
+    when %r{/users/\d+}
+      response = AddUserController.new(@client).show_user(request)
+    when '/users'
+      response = AddUserController.new(@client).render_user_list
     when '/home'
-      LoginController.new(@client).call(env)
-    when %r{/edit_user/\d+} 
-    LoginController.new(@client).call(env)
-    when %r{/update_user/\d+} 
-    HomeController.new(@client).call(env)
-    when %r{/delete_user/\d+} 
-    HomeController.new(@client).call(env)
+      response = HomeController.new(@client).render_home
+    # when %r{/edit_user/\d+}
+    #   response = request.get? ? AddUserController.new(@client).edit_user(request) : not_found
+    # when %r{/update_user/\d+}
+    #   response = request.post? ? AddUserController.new(@client).update_user(request) : not_found
+    # when %r{/delete_user/\d+}
+      # response = request.post? ? AddUserController.new(@client).delete_user(request) : not_found
     when '/tickets'
-    TicketsController.new(@client).call(env)
+      response = TicketsController.new(@client).render_new
     when %r{^/tickets/\d+$}
-    TicketsController.new(@client).call(env)
+    response = TicketsController.new(@client).show_ticket(request)
     when '/tickets_book'
-    TicketsController.new(@client).call(env)
+    response = request.post? ? TicketsController.new(@client).handle_form_submission(request) : not_found
     else
-      not_found
+      response = not_found
     end
+
+    response
   end
 
   private
 
   def not_found
-    [404, {'Content-Type' => 'text/html'}, ['Page Not Found']]
+    [404, { 'Content-Type' => 'text/html' }, ['Page Not Found']]
   end
 end

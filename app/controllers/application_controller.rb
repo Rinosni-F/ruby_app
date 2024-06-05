@@ -7,11 +7,6 @@ class ApplicationController
     @client = client
   end
 
-  def call(env)
-    request = Rack::Request.new(env)
-    route_request(request)
-  end
-
   protected
 
   def redirect_to(path)

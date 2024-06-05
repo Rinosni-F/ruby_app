@@ -2,19 +2,19 @@ require 'bcrypt'
 require_relative '../models/user'
 
 class AddUserController < ApplicationController
-  def route_request(request)
-    if request.post? && request.path == '/add_user'
-      handle_form_submission(request)
-    elsif request.get? && request.path.match('/users/')
-      show_user(request)
-    elsif request.get? && request.path == '/edit_user'
-      edit_user(request)
-    else
-      render_add_user_form
-    end
-  end
+  # def route_request(request)
+  #   if request.post? && request.path == '/add_user'
+  #     handle_form_submission(request)
+  #   elsif request.get? && request.path.match('/users/')
+  #     show_user(request)
+  #   elsif request.get? && request.path == '/edit_user'
+  #     edit_user(request)
+  #   else
+  #     render_add_user_form
+  #   end
+  # end
 
-  private
+  # private
 
   def handle_form_submission(request)
     @success_message = nil
@@ -25,7 +25,6 @@ class AddUserController < ApplicationController
       password_digest: BCrypt::Password.create(request.params['password']),
       role: request.params['role']
     )
-
     if @user.save
       redirect_to "/users/#{@user.id}"
     else

@@ -1,18 +1,17 @@
 class HomeController  < ApplicationController
 
-  def route_request(request)
-    if request.post? && request.path.start_with?('/update_user/')  # Handle update user request
-      user_id = request.path.split('/').last.to_i
-      update_user(user_id, request.params)
-      return redirect_to_index_with_message('User updated successfully!')
-    elsif request.get? && request.path.start_with?('/delete_user/')
-      user_id = request.path.split('/').last.to_i
-      delete_user(user_id)
-      return redirect_to_index_with_message('User deleted successfully!')
-    end
-  end
+  # def route_request(request)
+  #   if request.post? && request.path.start_with?('/update_user/')  # Handle update user request
+  #     user_id = request.path.split('/').last.to_i
+  #     update_user(user_id, request.params)
+  #     return redirect_to_index_with_message('User updated successfully!')
+  #   elsif request.get? && request.path.start_with?('/delete_user/')
+  #     user_id = request.path.split('/').last.to_i
+  #     delete_user(user_id)
+  #     return redirect_to_index_with_message('User deleted successfully!')
+  #   end
+  # end
 
-  private
 
   def delete_user(user_id)
     query = "DELETE FROM users WHERE id = ?"
