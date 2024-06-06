@@ -20,14 +20,21 @@
             <a class="nav-link" href="/home">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/tickets">Tickets</a>
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Ticket</a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a class="dropdown-item" href="/tickets">Add Ticket</a>
+              <a class="dropdown-item" href="/ticket_list">Ticket List</a>
+
+            </div>
           </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               User
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="/add_user">Add User</a>
+              <%# <a class="dropdown-item" href="/add_user">Add User</a> %>
+              <a class="dropdown-item" href="/users">Manage User</a>
+
             </div>
           </li>
           <li class="nav-item">
@@ -36,6 +43,8 @@
         </ul>
       </div>
     </nav>
+    <h1 class="center">Home page</h1>
+    <h2 class="center">Welcome</h2>
     <div class="center">
       <% if @success_message %>
         <div class="alert alert-success">

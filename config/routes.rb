@@ -24,15 +24,17 @@ class Routes
     when '/users'
       response = AddUserController.new(@client).render_user_list
     when '/home'
-      response = HomeController.new(@client).render_home
-    # when %r{/edit_user/\d+}
-    #   response = request.get? ? AddUserController.new(@client).edit_user(request) : not_found
-    # when %r{/update_user/\d+}
-    #   response = request.post? ? AddUserController.new(@client).update_user(request) : not_found
-    # when %r{/delete_user/\d+}
-      # response = request.post? ? AddUserController.new(@client).delete_user(request) : not_found
+      response = LoginController.new(@client).render_home
+    when %r{/edit_user/\d+}
+    response = request.get? ? AddUserController.new(@client).edit_user(request) : not_found
+    when %r{/update_user/\d+}
+    response = request.post? ? AddUserController.new(@client).update_user(request) : not_found
+    when %r{/delete_user/\d+}
+    response = request.post? ? AddUserController.new(@client).delete_user(request) : not_found
     when '/tickets'
       response = TicketsController.new(@client).render_new
+    when '/ticket_list'
+      response = TicketsController.new(@client).ticket_list
     when %r{^/tickets/\d+$}
     response = TicketsController.new(@client).show_ticket(request)
     when '/tickets_book'

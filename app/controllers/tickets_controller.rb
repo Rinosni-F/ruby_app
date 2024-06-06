@@ -49,6 +49,15 @@ class TicketsController < ApplicationController
     response = template.result(binding)
     [200, headers, [response]]
   end
+  def ticket_list
+    @tickets = Ticket.all
+
+    headers = { 'Content-Type' => 'text/html' }
+    erb_file = File.read('app/views/tickets/index.html.erb')
+    template = ERB.new(erb_file)
+    response = template.result(binding)
+    [200, headers, [response]]
+  end
 
   def not_found
     [404, { 'Content-Type' => 'text/html' }, ['Page Not Found']]
