@@ -27,7 +27,12 @@
           <input type="password" class="form-control" id="password" name="password" placeholder="Password">
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
-      </form>
+      </form><br>
+      <% if @failure_message %>
+        <div class="alert alert-danger">
+          <%= @failure_message %>
+        </div>
+      <% end %>
     </div>
   </div>
 </body>
