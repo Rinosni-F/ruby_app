@@ -6,6 +6,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
+    <%= render_partial('app/views/shared/navbar.html.erb') %>
   <div class="container mt-5">
     <h1 class="text-center">Ticket List</h1>
     <% if @success_message %>
@@ -26,7 +27,7 @@
       </thead>
       <tbody>
         <% if @tickets %>
-          <% @tickets.each do |ticket| %>
+          <% JSON.parse(@tickets).each do |ticket| %>
             <tr>
               <td><%= ticket['id'] %></td>
               <td><%= ticket['name'] %></td>

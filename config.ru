@@ -8,6 +8,8 @@ require_relative 'app/controllers/login_controller'
 require_relative 'app/controllers/adduser_controller'
 require_relative 'app/controllers/home_controller'
 require_relative 'app/controllers/tickets_controller'
+require_relative 'helpers/helpers'
+
 
 # Load database configuration
 # db_config = YAML.safe_load(ERB.new(File.read('config/database.yml')).result, aliases: true)[env]

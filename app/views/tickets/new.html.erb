@@ -9,6 +9,7 @@
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
+    <%= render_partial('app/views/shared/navbar.html.erb') %>
   <div class="container">
     <% if @success_message %>
       <div class="alert alert-success"><%= @success_message %></div>

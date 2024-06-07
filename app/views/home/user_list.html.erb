@@ -5,6 +5,7 @@
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
+    <%= render_partial('app/views/shared/navbar.html.erb') %>
   <div class="container">
     <h1 class="mt-5">User List</h1>
     <table class="table table-bordered">
@@ -35,5 +36,8 @@
     </table>
     <a href="/add_user" class="btn btn-success">Add New User</a>
   </div>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 </body>
 </html>

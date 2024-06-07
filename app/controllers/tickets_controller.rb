@@ -50,8 +50,7 @@ class TicketsController < ApplicationController
     [200, headers, [response]]
   end
   def ticket_list
-    @tickets = Ticket.all
-
+    @tickets = Ticket.all.to_json
     headers = { 'Content-Type' => 'text/html' }
     erb_file = File.read('app/views/tickets/index.html.erb')
     template = ERB.new(erb_file)

@@ -1,4 +1,6 @@
 require 'bcrypt'
+require 'erb'
+
 
 class LoginController < ApplicationController
 
@@ -40,7 +42,7 @@ class LoginController < ApplicationController
     headers = { 'Content-Type' => 'text/html' }
     [200, headers, [response_body]]
   end
-  
+
   def render_home
     erb_file = File.read('app/views/home/index.html.erb')
     template = ERB.new(erb_file)
