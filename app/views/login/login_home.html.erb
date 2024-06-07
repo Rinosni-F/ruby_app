@@ -2,22 +2,44 @@
 <html>
 <head>
   <title>Login</title>
-  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
   <style>
-    .center {
-      text-align: center;
-      margin-top: 20px;
+    body {
+      background: url('https://source.unsplash.com/1600x900/?bus,travel') no-repeat center center fixed;
+      background-size: cover;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
-    .hidden {
-      display: none;
+    .login-container {
+      background: rgba(0, 0, 0, 0.7);
+      padding: 30px;
+      border-radius: 10px;
+      color: #fff;
+    }
+    .login-container .form-control {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #fff;
+    }
+    .login-container .form-control::placeholder {
+      color: #ddd;
+    }
+    .login-container .btn-primary {
+      background: #ffdd00;
+      border-color: #ffdd00;
+      color: #000;
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <div id="login-form" class="center">
-      <h1 class="text-primary">Login Form</h1>
-      <form method="post" action="/submit" class="w-50 mx-auto">
+    <div class="login-container text-center col-md-6 col-lg-4">
+      <h1 class="text-primary"><i class="fas fa-ticket-alt"></i> Ticket Booking</h1>
+      <form method="post" action="/submit">
         <div class="form-group">
           <label for="username" class="font-weight-bold">Username</label>
           <input type="text" class="form-control" id="username" name="username" placeholder="Username">
@@ -26,14 +48,18 @@
           <label for="password" class="font-weight-bold">Password</label>
           <input type="password" class="form-control" id="password" name="password" placeholder="Password">
         </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
-      </form><br>
+        <button type="submit" class="btn btn-primary btn-block">Login</button>
+      </form>
       <% if @failure_message %>
-        <div class="alert alert-danger">
+        <div class="alert alert-danger mt-3">
           <%= @failure_message %>
         </div>
       <% end %>
     </div>
   </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

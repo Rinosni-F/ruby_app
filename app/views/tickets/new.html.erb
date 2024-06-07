@@ -10,6 +10,7 @@
 </head>
 <body>
     <%= render_partial('app/views/shared/navbar.html.erb') %>
+
   <div class="container">
     <% if @success_message %>
       <div class="alert alert-success"><%= @success_message %></div>
@@ -62,6 +63,17 @@
       </div>
     </div>
   </div>
+   <style>
+    body {
+      background-image: url('https://cdn.dribbble.com/userupload/14551550/file/original-eebc44946c0cb2527451ffd165489d6a.gif'); 
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+      height: 100vh;
+      margin: 0;
+      padding: 0;
+    }
+    </style>
   <!-- Bootstrap JS -->
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
